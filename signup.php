@@ -52,6 +52,7 @@
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
 
+
         .submit {
             display: block;
             padding-top: 0.75rem;
@@ -103,6 +104,21 @@
             color: #000;
             margin-bottom: 8px;
         }
+        .input-role{
+            display: flex;         
+        }
+        .specialization-form input, button{
+            display: block;
+            outline: none;
+            border: 1px solid #e5e7eb;
+            margin: 8px 0;
+            font-size: 0.875rem;
+            line-height: 2rem;
+            width: 310px;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
 
     </style>
     <script>
@@ -127,6 +143,25 @@
             <div class="input-container">
                 <input type="text" placeholder="Last name">
             </div>
+
+            <div class="input-role">
+                <label>
+                    <input type="checkbox" name="role" value="doctor" onchange="showSpecializationInput(this)">
+                    Doctor?
+                </label>
+            </div>
+
+            <div id="specializationInput" style="display: none;" class="specialization-form">
+                <div class="specialization-field">
+                    <input type="text" placeholder="Specialization" name="Specialization[]" id="specialization">
+                    <input type="text" placeholder="License Number" name="License[]" id="license">
+                    <button type="button" onclick="removeSpecializationInput(this)">Remove</button>
+                </div>
+            </div>
+
+                <button type="button" id="addSpecializationBtn" onclick="addSpecializationInput()" style="display: none;">Add Specialization</button>
+
+
             <div class="input-container">
                 <select onchange="handleSelectChange(event)">
                     <option value="">Select gender</option>
@@ -168,6 +203,49 @@
             <a href="login.php" id="loginLink">Sign in</a>
         </p>
     </form>
+
+    <script>
+        function showSpecializationInput(checkbox) {
+        var specializationInput = document.getElementById("specializationInput");
+        var addSpecializationBtn = document.getElementById("addSpecializationBtn");
+        var licenseNumberInput = document.getElementById("specializationInput");
+        var addSpecializationBtn = document.getElementById("addSpecializationBtn");
+
+        if (checkbox.checked) {
+            specializationInput.style.display = "block";
+            licenseNumberInput.style.display = "block";
+            addSpecializationBtn.style.display = "block";
+        } else {
+            specializationInput.style.display = "none";
+            addSpecializationBtn.style.display = "none";
+        }
+        }
+
+        function addSpecializationInput() {
+        var specializationInput = document.getElementById("specializationInput");
+        var specializationField = document.createElement("div");
+        specializationField.classList.add("specialization-field");
+        specializationField.innerHTML = `
+            <input type="text" placeholder="Specialization" name="Specialization[]">
+            <input type="text" placeholder="License Number" name="License[]" id="license">
+            <button type="button" onclick="removeSpecializationInput(this)">Remove</button>
+            
+        `;
+        specializationInput.appendChild(specializationField);
+        }
+
+        function removeSpecializationInput(button) {
+        var specializationField = button.parentNode;
+        specializationField.parentNode.removeChild(specializationField);
+        }
+    </script>
+
+
+
+
+
+
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
