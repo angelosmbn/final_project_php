@@ -14,9 +14,11 @@
             border: 1px solid black;
             padding: 10px;
             border-radius: 5px;
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+            font-weight: 600;
             text-align: center;
-            color: green;
-            margin-top: 10px;
+            color: #000;
         }
 
         .success-message a {
@@ -27,7 +29,7 @@
 </head>
 <body>
     <div class="success-message">
-        Account successfully created! Please&nbsp;
+        Account successfully created! Please
         <a href="login.php">Sign in</a>
     </div>
 </body>
