@@ -85,12 +85,7 @@
             $stmt->close();
             $conn->close();
         }
-?>
+    ?>
 
-    <div class="success-message">
-        Account successfully created! Please
-        <a href="login.php">Sign in</a>
-    </div>
-    
 </body>
 </html>
