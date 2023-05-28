@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <title>Login</title>
     <style>
@@ -133,69 +133,72 @@
     </script>
 </head>
 <body>
-    <form id="signupForm" class="form hide" action="success.php">
+    <form id="signupForm" class="form hide" action="success.php" method="POST">
         <p class="form-title">Create an account</p>
         <div class="divider">
-        <p class="titles">Personal Information</p>
+            <p class="titles">Personal Information</p>
             <div class="input-container">
-                <input type="text" placeholder="First name">
+                <input type="text" placeholder="First name" name="firstName" required>
             </div>
             <div class="input-container">
-                <input type="text" placeholder="Last name">
+                <input type="text" placeholder="Last name" name="lastName" required>
             </div>
 
             <div class="input-role">
                 <label>
-                    <input type="checkbox" name="role" value="doctor" onchange="showSpecializationInput(this)">
-                    Doctor?
+                    <input type="radio" name="role" value="patient" checked onchange="handleRoleChange(this)">
+                    Patient
+                </label>
+                <label>
+                    <input type="radio" name="role" value="doctor" onchange="handleRoleChange(this)" onclick="addSpecializationInput()">
+                    Doctor
                 </label>
             </div>
 
             <div id="specializationInput" style="display: none;" class="specialization-form">
                 <div class="specialization-field">
-                    <input type="text" placeholder="Specialization" name="Specialization[]" id="specialization">
-                    <input type="text" placeholder="License Number" name="License[]" id="license">
-                    <button type="button" onclick="removeSpecializationInput(this)">Remove</button>
                 </div>
             </div>
 
-                <button type="button" id="addSpecializationBtn" onclick="addSpecializationInput()" style="display: none;">Add Specialization</button>
-
+            <button type="button" id="addSpecializationBtn" onclick="addSpecializationInput()" style="display: none;">Add Specialization</button>
 
             <div class="input-container">
-                <select onchange="handleSelectChange(event)">
+                <select name="gender" onchange="handleSelectChange(event)" required>
                     <option value="">Select gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
-                <input type="number" placeholder="Age" min="1" id="age">
+                <input type="number" placeholder="Age" min="1" name="age" id="age" required>
             </div>
             <div class="input-container">
-                <input type="tel" placeholder="Contact Number">
+                <input type="tel" placeholder="Contact Number" name="telephone" required>
             </div>
             <div class="input-container">
-                <input type="email" placeholder="Email">
+                <input type="email" placeholder="Email" name="email" required>
             </div>
         </div>
         <div class="input-container">
             <div class="divider">
                 <p class="titles">Address</p>
-                <input type="text" placeholder="Street"><br>
-                <input type="text" placeholder="City" id="city">
-                <input type="text" placeholder="State" id="state"><br>
-                <input type="text" placeholder="Postal Code" id="postal">
-                <input type="text" placeholder="Country" id="country">
+                <input type="text" placeholder="Street" name="street" required><br>
+                <input type="text" placeholder="City" id="city" name="city" required>
+                <input type="text" placeholder="State" id="state" name="state" required><br>
+                <input type="text" placeholder="Postal Code" id="postal" name="postal" required>
+                <input type="text" placeholder="Country" id="country" name="country" required>
             </div>
         </div>
         <div class="divider">
             <p class="titles">Password</p>
             <div class="input-container">
-                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Password" name="password" id="password" required>
             </div>
             <div class="input-container">
-                <input type="password" placeholder="Confirm password">
+                <input type="password" placeholder="Confirm password" name="confirmPassword" id="confirmPassword" required>
             </div>
         </div>
+        
+        <div id="passwordError" class="error"></div>
+
         <button type="submit" class="submit">Sign up</button>
 
         <p class="signup-link">
@@ -205,48 +208,106 @@
     </form>
 
     <script>
-        function showSpecializationInput(checkbox) {
-        var specializationInput = document.getElementById("specializationInput");
-        var addSpecializationBtn = document.getElementById("addSpecializationBtn");
-        var licenseNumberInput = document.getElementById("specializationInput");
-        var addSpecializationBtn = document.getElementById("addSpecializationBtn");
+        function handleRoleChange(radio) {
+            var specializationInput = document.getElementById("specializationInput");
+            var addSpecializationBtn = document.getElementById("addSpecializationBtn");
 
-        if (checkbox.checked) {
-            specializationInput.style.display = "block";
-            licenseNumberInput.style.display = "block";
-            addSpecializationBtn.style.display = "block";
-        } else {
-            specializationInput.style.display = "none";
-            addSpecializationBtn.style.display = "none";
-        }
+            if (radio.value === "doctor") {
+                specializationInput.style.display = "block";
+                addSpecializationBtn.style.display = "block";
+                // Make the specialization and license number fields required
+                var specializationFields = specializationInput.querySelectorAll('input[name="specialization[]"]');
+                for (var i = 0; i < specializationFields.length; i++) {
+                    specializationFields[i].required = true;
+                }
+                var licenseFields = specializationInput.querySelectorAll('input[name="license[]"]');
+                for (var i = 0; i < licenseFields.length; i++) {
+                    licenseFields[i].required = true;
+                }
+            } else {
+                specializationInput.style.display = "none";
+                addSpecializationBtn.style.display = "none";
+                // Clear the values and remove the required attribute
+                var specializationFields = specializationInput.querySelectorAll('input[name="specialization[]"]');
+                for (var i = 0; i < specializationFields.length; i++) {
+                    specializationFields[i].value = "";
+                    specializationFields[i].required = false;
+                }
+                var licenseFields = specializationInput.querySelectorAll('input[name="license[]"]');
+                for (var i = 0; i < licenseFields.length; i++) {
+                    licenseFields[i].value = "";
+                    licenseFields[i].required = false;
+                }
+            }
         }
 
         function addSpecializationInput() {
-        var specializationInput = document.getElementById("specializationInput");
-        var specializationField = document.createElement("div");
-        specializationField.classList.add("specialization-field");
-        specializationField.innerHTML = `
-            <input type="text" placeholder="Specialization" name="Specialization[]">
-            <input type="text" placeholder="License Number" name="License[]" id="license">
-            <button type="button" onclick="removeSpecializationInput(this)">Remove</button>
-            
-        `;
-        specializationInput.appendChild(specializationField);
+            var specializationInput = document.getElementById("specializationInput");
+            var specializationField = document.createElement("div");
+            specializationField.classList.add("specialization-field");
+            specializationField.innerHTML = `
+                <input type="text" placeholder="Specialization" name="specialization[]" required>
+                <input type="text" placeholder="License Number" name="license[]" required>
+                <button type="button" onclick="removeSpecializationInput(this)">Remove</button>
+            `;
+            specializationInput.appendChild(specializationField);
         }
 
         function removeSpecializationInput(button) {
-        var specializationField = button.parentNode;
-        specializationField.parentNode.removeChild(specializationField);
+            var specializationField = button.parentNode;
+            specializationField.parentNode.removeChild(specializationField);
         }
+
+        function handleSelectChange(event) {
+            var genderSelect = event.target;
+            var selectedGender = genderSelect.value;
+            var maleOption = genderSelect.querySelector('option[value="male"]');
+            var femaleOption = genderSelect.querySelector('option[value="female"]');
+
+            if (selectedGender === "male") {
+                femaleOption.removeAttribute("required");
+                maleOption.setAttribute("required", true);
+            } else if (selectedGender === "female") {
+                maleOption.removeAttribute("required");
+                femaleOption.setAttribute("required", true);
+            } else {
+                maleOption.removeAttribute("required");
+                femaleOption.removeAttribute("required");
+            }
+        }
+
+        // Function to validate the password fields
+        function validatePasswords() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var errorElement = document.getElementById("passwordError");
+
+        if (password !== confirmPassword) {
+            // Passwords don't match, show error message
+            errorElement.textContent = "Passwords do not match";
+            return false;
+        } else {
+            // Passwords match, clear error message
+            errorElement.textContent = "";
+            return true;
+        }
+        }
+
+        // Add an event listener to the form's submit event
+        var signupForm = document.getElementById("signupForm");
+        signupForm.addEventListener("submit", function (event) {
+        if (!validatePasswords()) {
+            // Prevent form submission if passwords don't match
+            event.preventDefault();
+        }
+        });
+
     </script>
 
 
 
 
-
-
-
-
+    <!--
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const signupLink = document.getElementById('signupLink');
@@ -267,5 +328,6 @@
             });
         });
     </script>
+    -->
 </body>
 </html>
