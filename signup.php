@@ -1,3 +1,6 @@
+<?php 
+@session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -177,8 +180,6 @@
             <div class="input-container">
                 <input type="email" placeholder="Email" name="email" required>
             </div>
-            <div id="emailError" class="error"></div>
-
 
 
         </div>
@@ -306,28 +307,6 @@
             event.preventDefault();
         }
         });
-
-        function displayEmailError(message) {
-            var emailError = document.getElementById("emailError");
-            emailError.textContent = message;
-        }
-
-        var signupForm = document.getElementById("signupForm");
-        signupForm.addEventListener("submit", function (event) {
-        if (!validatePasswords()) {
-            // Prevent form submission if passwords don't match
-            event.preventDefault();
-        } else {
-            // Check if the email is already taken (replace this with your actual check)
-            var email = document.getElementById("email").value;
-            if (isEmailTaken(email)) {
-            displayEmailError("Email already taken");
-            event.preventDefault();
-            }
-        }
-        });
-
-
 
     </script>
 

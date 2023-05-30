@@ -77,6 +77,7 @@
                     echo '<div class="error-message">
                         Email is already taken. Please choose a different email.
                     </div>';
+                    echo '<br><a href="signup.php" class="back-button">Go Back to Signup</a>                    ';
                     $emailStmt->close();
                     $conn->close();
                 } else {
