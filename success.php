@@ -25,6 +25,19 @@
             text-decoration: none;
             font-weight: bold;
         }
+        .back-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #4F46E5;
+            color: #ffffff;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #3B327A;
+        }
     </style>
 </head>
 <body>
@@ -77,7 +90,7 @@
                     echo '<div class="error-message">
                         Email is already taken. Please choose a different email.
                     </div>';
-                    echo '<br><a href="signup.php" class="back-button">Go Back to Signup</a>                    ';
+                    echo '<button onclick="goBack()" class="back-button">Go Back</button>';
                     $emailStmt->close();
                     $conn->close();
                 } else {
@@ -96,6 +109,11 @@
             }
         }
     ?>
+    <script>
+    function goBack() {
+        window.history.back();
+    }
+    </script>
 </body>
 
 </html>
