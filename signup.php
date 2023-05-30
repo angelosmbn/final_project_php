@@ -124,16 +124,6 @@
 
 
     </style>
-    <script>
-        function handleSelectChange(event) {
-            var selectedValue = event.target.value;
-            if (selectedValue !== "") {
-                event.target.classList.add("black");
-            } else {
-                event.target.classList.remove("black");
-            }
-        }
-    </script>
 </head>
 <body>
     <form id="signupForm" class="form hide" action="success.php" method="POST">
@@ -159,8 +149,7 @@
             </div>
 
             <div id="specializationInput" style="display: none;" class="specialization-form">
-                <div class="specialization-field">
-                </div>
+                <div class="specialization-field"></div>
             </div>
 
             <button type="button" id="addSpecializationBtn" onclick="addSpecializationInput()" style="display: none;">Add Specialization</button>
@@ -176,12 +165,10 @@
             <div class="input-container">
                 <input type="tel" placeholder="Contact Number" name="telephone" required>
             </div>
-            
+
             <div class="input-container">
                 <input type="email" placeholder="Email" name="email" required>
             </div>
-
-
         </div>
         <div class="input-container">
             <div class="divider">
@@ -202,7 +189,7 @@
                 <input type="password" placeholder="Confirm password" name="confirmPassword" id="confirmPassword" required>
             </div>
         </div>
-        
+
         <div id="passwordError" class="error"></div>
 
         <button type="submit" class="submit">Sign up</button>
@@ -234,16 +221,16 @@
                 specializationInput.style.display = "none";
                 addSpecializationBtn.style.display = "none";
                 // Clear the values and remove the required attribute
-                var specializationFields = specializationInput.querySelectorAll('input[name="specialization[]"]');
-                for (var i = 0; i < specializationFields.length; i++) {
-                    specializationFields[i].value = "";
-                    specializationFields[i].required = false;
-                }
-                var licenseFields = specializationInput.querySelectorAll('input[name="license[]"]');
-                for (var i = 0; i < licenseFields.length; i++) {
-                    licenseFields[i].value = "";
-                    licenseFields[i].required = false;
-                }
+                specializationInput.innerHTML = "";
+            }
+        }
+
+        function handleSelectChange(event) {
+            var selectedValue = event.target.value;
+            if (selectedValue !== "") {
+                event.target.classList.add("black");
+            } else {
+                event.target.classList.remove("black");
             }
         }
 
@@ -262,24 +249,6 @@
         function removeSpecializationInput(button) {
             var specializationField = button.parentNode;
             specializationField.parentNode.removeChild(specializationField);
-        }
-
-        function handleSelectChange(event) {
-            var genderSelect = event.target;
-            var selectedGender = genderSelect.value;
-            var maleOption = genderSelect.querySelector('option[value="male"]');
-            var femaleOption = genderSelect.querySelector('option[value="female"]');
-
-            if (selectedGender === "male") {
-                femaleOption.removeAttribute("required");
-                maleOption.setAttribute("required", true);
-            } else if (selectedGender === "female") {
-                maleOption.removeAttribute("required");
-                femaleOption.setAttribute("required", true);
-            } else {
-                maleOption.removeAttribute("required");
-                femaleOption.removeAttribute("required");
-            }
         }
 
         // Function to validate the password fields
@@ -306,13 +275,13 @@
         // Add an event listener to the form's submit event
         var signupForm = document.getElementById("signupForm");
         signupForm.addEventListener("submit", function (event) {
-        if (!validatePasswords()) {
-            // Prevent form submission if passwords don't match
-            event.preventDefault();
-        }
+            if (!validatePasswords()) {
+                // Prevent form submission if passwords don't match
+                event.preventDefault();
+            }
         });
-
     </script>
+
 
 
 
