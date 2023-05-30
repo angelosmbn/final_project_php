@@ -26,7 +26,8 @@
             font-weight: bold;
         }
         .back-button {
-            display: inline-block;
+            display: block;
+            margin: 0 auto;
             padding: 0.5rem 1rem;
             background-color: #4F46E5;
             color: #ffffff;
@@ -88,9 +89,9 @@
                 if ($emailResult->num_rows > 0) {
                     // Email is already taken, display error message and redirect back to the signup form
                     echo '<div class="error-message">
-                        Email is already taken. Please choose a different email.
+                        Email is already taken. Please choose a different email.<br>
+                        <button onclick="goBack()" class="back-button">Change Email</button>
                     </div>';
-                    echo '<button onclick="goBack()" class="back-button">Go Back</button>';
                     $emailStmt->close();
                     $conn->close();
                 } else {
