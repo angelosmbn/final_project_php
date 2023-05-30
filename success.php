@@ -67,7 +67,7 @@
             die("Connection failed: ". $conn->connect_error);
         }
         else{
-            $stmt = $conn->prepare("insert into users(firstName, lastName, age, gender, phoneNumber, email, street, city, state, postal, country, role, password)
+            $stmt = $conn->prepare("insert into users(first_name, last_name, age, gender, phone_number, email, street, city, state, postal, country, role, specialization, license_number ,password)
                 values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("ssisissssisssss", $firstName, $lastName, $age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $specializationsString, $licensesString, $password);
             $stmt->execute();

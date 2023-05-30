@@ -173,6 +173,10 @@
             <div class="input-container">
                 <input type="tel" placeholder="Contact Number" name="telephone" required>
             </div>
+            
+            <div class="input-container">
+                <input type="email" placeholder="Email" name="email" required>
+            </div>
             <?php
                 $conn = new mysqli('localhost', 'root', '', 'check_up');
                 if ($conn->connect_error) {
@@ -208,9 +212,6 @@
                 }
                 ?>
 
-            <div class="input-container">
-                <input type="email" placeholder="Email" name="email" required>
-            </div>
         </div>
         <div class="input-container">
             <div class="divider">
