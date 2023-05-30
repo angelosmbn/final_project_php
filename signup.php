@@ -1,6 +1,3 @@
-<?php 
-@session_start();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,6 +117,9 @@
             width: 310px;
             border-radius: 0.5rem;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .error{
+            color: red;
         }
 
 
@@ -284,19 +284,23 @@
 
         // Function to validate the password fields
         function validatePasswords() {
-        var password = document.getElementById("password").value;
-        var confirmPassword = document.getElementById("confirmPassword").value;
-        var errorElement = document.getElementById("passwordError");
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var errorElement = document.getElementById("passwordError");
 
-        if (password !== confirmPassword) {
-            // Passwords don't match, show error message
-            errorElement.textContent = "Passwords do not match";
-            return false;
-        } else {
-            // Passwords match, clear error message
-            errorElement.textContent = "";
-            return true;
-        }
+            if (password.length < 8) {
+                // Password length is less than 8 characters, show error message
+                errorElement.textContent = "Password should contain at least 8 characters";
+                return false;
+            } else if (password !== confirmPassword) {
+                // Passwords don't match, show error message
+                errorElement.textContent = "Passwords do not match";
+                return false;
+            } else {
+                // Passwords match and have the required length, clear error message
+                errorElement.textContent = "";
+                return true;
+            }
         }
 
         // Add an event listener to the form's submit event
