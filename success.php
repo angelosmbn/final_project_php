@@ -60,7 +60,7 @@
             $state = $_POST['state'];
             $zip = $_POST['postal'];
             $country = $_POST['country'];
-            $password = $_POST['password'];
+            $password = sha1($_POST['password']);
             $confirmPassword = $_POST['confirmPassword'];
 
             $role = isset($_POST['role']) ? $_POST['role'] : '';
