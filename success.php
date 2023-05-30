@@ -67,16 +67,9 @@
             die("Connection failed: ". $conn->connect_error);
         }
         else{
-            if($role == "patient"){
-            $stmt = $conn->prepare("insert into patient(firstName, lastName, age, gender, phoneNumber, email, street, city, state, postal, country, role, password)
-                values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssisissssisss", $firstName, $lastName, $age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $password);
-            }
-            else{
-                $stmt = $conn->prepare("insert into doctor(firstName, lastName, specialization, licenseNumber ,age, gender, phoneNumber, email, street, city, state, postal, country, role, password)
+            $stmt = $conn->prepare("insert into users(firstName, lastName, age, gender, phoneNumber, email, street, city, state, postal, country, role, password)
                 values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssisissssisss", $firstName, $lastName, $specializationsString, $licensesString, $age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $password);
-            }
+            $stmt->bind_param("ssisissssisssss", $firstName, $lastName, $age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $specializationsString, $licensesString, $password);
             $stmt->execute();
             echo '<div class="success-message">
                 Account successfully created! Please

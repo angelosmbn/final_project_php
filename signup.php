@@ -173,6 +173,41 @@
             <div class="input-container">
                 <input type="tel" placeholder="Contact Number" name="telephone" required>
             </div>
+            <?php
+                $conn = new mysqli('localhost', 'root', '', 'check_up');
+                if ($conn->connect_error) {
+                    echo '<div class="success-message">
+                        Account NOT successfully created! Please
+                        <a href="login.php">Try Again</a>
+                    </div>';
+        
+                    die("Connection failed: ". $conn->connect_error);
+                }
+                
+                if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                    // Get the submitted email
+                    $email = $_POST["email"];
+
+                    // Prepare a SELECT query to check if the email exists
+                    $query = "SELECT * FROM users WHERE email = ?";
+                    $stmt = $conn->prepare($query);
+                    $stmt->bind_param("s", $email);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    if ($result->num_rows > 0) {
+                        // Email already exists in the database
+                        echo "The email is already registered.";
+                        exit;
+                    }
+
+                    // Continue with the insertion of the new record
+                    // ...
+                    // Your existing code to insert the record into the database
+                    // ...
+                }
+                ?>
+
             <div class="input-container">
                 <input type="email" placeholder="Email" name="email" required>
             </div>
