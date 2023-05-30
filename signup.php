@@ -188,6 +188,7 @@
                     die("Connection failed: ". $conn->connect_error);
                 }
                 
+
                 if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     // Get the submitted email
                     $email = $_POST["email"];
@@ -201,16 +202,20 @@
 
                     if ($result->num_rows > 0) {
                         // Email already exists in the database
-                        echo "The email is already registered.";
-                        exit;
+                        echo '<div class="error-message">The email is already registered.</div>';
+                    } else {
+                        // Continue with the insertion of the new record
+                        // ...
+                        // Your existing code to insert the record into the database
+                        // ...
+                        echo '
+                        <div class="input-container">
+                            <input type="email" placeholder="Email" name="email" required>
+                        </div>';
                     }
-
-                    // Continue with the insertion of the new record
-                    // ...
-                    // Your existing code to insert the record into the database
-                    // ...
                 }
-                ?>
+            ?>
+
 
         </div>
         <div class="input-container">
