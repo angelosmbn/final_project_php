@@ -30,7 +30,31 @@
 <body>
     <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // ...existing code...
+            $firstName = $_POST['firstName'];
+            $lastName = $_POST['lastName'];
+            $age = $_POST['age'];
+            $gender = $_POST['gender'];
+            $telephone = $_POST['telephone'];
+
+            if (substr($telephone, 0, 1) === '0') {
+                $telephone = '63' . substr($telephone, 1);
+            }
+
+            $email = $_POST['email'];
+            $street = $_POST['street'];
+            $city = $_POST['city'];
+            $state = $_POST['state'];
+            $zip = $_POST['postal'];
+            $country = $_POST['country'];
+            $password = $_POST['password'];
+            $confirmPassword = $_POST['confirmPassword'];
+
+            $role = isset($_POST['role']) ? $_POST['role'] : '';
+            $specializations = isset($_POST['specialization']) ? $_POST['specialization'] : [];
+            $licenses = isset($_POST['license']) ? $_POST['license'] : [];
+
+            $specializationsString = implode(', ', $specializations);
+            $licensesString = implode(', ', $licenses);
 
             $conn = new mysqli('localhost', 'root', '', 'check_up');
             if ($conn->connect_error) {
