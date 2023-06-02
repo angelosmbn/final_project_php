@@ -111,16 +111,20 @@
             display: block;
             outline: none;
             border: 1px solid #e5e7eb;
-            margin: 8px 0;
             font-size: 0.875rem;
-            line-height: 2rem;
+            line-height: 1.8rem;
             width: 310px;
             border-radius: 0.5rem;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
+        #specialization, #license{
+            width: 315px;
+            line-height: 3rem;
+        }
         .error{
             color: red;
         }
+        
 
 
     </style>
@@ -238,13 +242,54 @@
             var specializationInput = document.getElementById("specializationInput");
             var specializationField = document.createElement("div");
             specializationField.classList.add("specialization-field");
-            specializationField.innerHTML = `
-                <input type="text" placeholder="Specialization" name="specialization[]" required>
-                <input type="text" placeholder="License Number" name="license[]" required>
-                <button type="button" onclick="removeSpecializationInput(this)">Remove</button>
-            `;
+            
+            // Create a select element (dropdown) for specialization
+            var specializationSelect = document.createElement("select");
+            specializationSelect.id = "specialization";
+            specializationSelect.name = "specialization[]";
+            specializationSelect.required = true;
+            specializationSelect.addEventListener("change", handleSelectChange); // Add event listener
+            
+            // Add a placeholder option
+            var placeholderOption = document.createElement("option");
+            placeholderOption.value = "";
+            placeholderOption.text = "Select Specialization";
+            specializationSelect.appendChild(placeholderOption);
+            
+            // Add options for different specializations
+            var specializations = ["Cardiologist", "Dermatologist", "Endocrinologist", "Gastroenterologist", "Neurologist", "Oncologist", "Pediatrician", "Psychiatrist", "Surgeon"];
+            for (var i = 0; i < specializations.length; i++) {
+                var option = document.createElement("option");
+                option.value = specializations[i];
+                option.text = specializations[i];
+                specializationSelect.appendChild(option);
+            }
+            
+            // Create an input element for license number
+            var licenseInput = document.createElement("input");
+            licenseInput.type = "text";
+            licenseInput.id = "license";
+            licenseInput.placeholder = "License Number";
+            licenseInput.name = "license[]";
+            licenseInput.required = true;
+            
+            // Create a button to remove the specialization input
+            var removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.textContent = "Remove";
+            removeButton.onclick = function() {
+                removeSpecializationInput(this);
+            };
+            
+            // Append the elements to the specializationField div
+            specializationField.appendChild(specializationSelect);
+            specializationField.appendChild(licenseInput);
+            specializationField.appendChild(removeButton);
+            
             specializationInput.appendChild(specializationField);
         }
+
+
 
         function removeSpecializationInput(button) {
             var specializationField = button.parentNode;
