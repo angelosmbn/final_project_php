@@ -25,7 +25,7 @@
 
       <!-- Side fucking bar-->
       <h2>Sidebar</h2>
-      <form action="Patient.php" method="post">
+      <form action="show_doctors.php" method="post">
         <div class="search-bar">
           <input type="text" name="search" placeholder="Search..." />
         </div>
@@ -72,9 +72,9 @@
         $specialization = $_POST['specialization'];
         // Add specialization filter to the SQL query
         if (strpos($sql, 'WHERE') !== false) {
-          $sql .= " AND specialization = '$specialization'";
+          $sql .= " AND (FIND_IN_SET('$specialization', specialization) > 0 OR specialization LIKE '%$specialization%')";
         } else {
-          $sql .= " WHERE specialization = '$specialization'";
+          $sql .= " WHERE (FIND_IN_SET('$specialization', specialization) > 0 OR specialization LIKE '%$specialization%')";
         }
       }
 
