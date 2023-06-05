@@ -60,7 +60,7 @@
             $state = $_POST['state'];
             $zip = $_POST['postal'];
             $country = $_POST['country'];
-            $password = sha1($_POST['password']);
+            $password = sha1(sha1($_POST['password']));
             $confirmPassword = $_POST['confirmPassword'];
 
             $role = isset($_POST['role']) ? $_POST['role'] : '';
@@ -70,7 +70,8 @@
             $specializationsString = implode(', ', $specializations);
             $licensesString = implode(', ', $licenses);
 
-            $conn = new mysqli('localhost', 'root', '', 'check_up');
+            $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
+            
             if ($conn->connect_error) {
                 echo '<div class="error-message">
                     Account NOT successfully created! Please

@@ -16,6 +16,7 @@
     <h1>Welcome, <?php echo $user['first_name']; ?>!</h1>
     <p>Email: <?php echo $user['email']; ?></p>
     <p>Age: <?php echo $user['age']; ?></p>
+    <p>role: <?php echo $user['role']; ?></p>
     <!-- Display more user details as needed -->
     <a href="login.php">Logout</a>
 </body>
