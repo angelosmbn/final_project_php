@@ -91,9 +91,9 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
-        $password = sha1($_POST['password']);
+        $password = sha1(sha1($_POST['password']));
 
-        $conn = new mysqli('localhost', 'root', '', 'check_up');
+        $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
         if ($conn->connect_error) {
             $error_message = 'Unable to connect to the database. Please try again later.';
             die("Connection failed: " . $conn->connect_error);
@@ -111,7 +111,7 @@
                 $_SESSION['user'] = $user;
 
                 // Redirect to the dashboard page
-                header("Location: dashboard.php");
+                header("Location: doctor_dashboard.php");
                 exit();
             } else {
                 // Login failed
