@@ -67,7 +67,7 @@
       ?>
       <div class="card">
         <img class="profile-image" src="<?php echo $row['picture']; ?>" alt="Profile Image">
-        <h2 class="text-title"><?php echo $row['firstName'] . ' ' . $row['lastName']; ?></h2>
+        <h2 class="text-title"><?php echo "Dr." . $row['firstName'] . ' ' . $row['lastName']; ?></h2>
         <p class="text-body">Specialization: <?php echo $row['specialization']; ?></p>
         <div class="info-card">
           <h3>Additional Information</h3>
