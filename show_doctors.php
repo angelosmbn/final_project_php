@@ -81,7 +81,7 @@
     echo "No doctors found.";
   }
 
-  // Close the database connection
+  // Close the database connection.
   $conn->close();
   ?>
 </div>
