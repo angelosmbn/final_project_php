@@ -97,9 +97,16 @@
                     $conn->close();
                 } else {
                     // Email is not taken, proceed with account creation
-                    $stmt = $conn->prepare("INSERT INTO users(first_name, last_name, age, gender, phone_number, email, street, city, state, postal, country, role, specialization, license_number ,password)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->bind_param("ssisissssisssss", $firstName, $lastName, $age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $specializationsString, $licensesString, $password);
+                    if($role == 'doctor'){
+                        $stmt = $conn->prepare("INSERT INTO doctor(first_name, last_name, age, gender, phone_number, email, street, city, state, postal, country, role, specialization, license_number ,password)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("ssssisissssisss", $firstName, $lastName, $specializationsString, $licensesString ,$age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $password);
+                    }
+                    elseif($role == "patient"){
+                        $stmt = $conn->prepare("INSERT INTO patient(first_name, last_name, age, gender, phone_number, email, street, city, state, postal, country, role, specialization, license_number ,password)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("ssisissssisss", $firstName, $lastName, $age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $password);
+                    }
                     $stmt->execute();
                     echo '<div class="success-message">
                         Account successfully created! Please
