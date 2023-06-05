@@ -10,13 +10,24 @@
 
     // Retrieve the user details from the session
     $user = $_SESSION['user'];
+
+    if($user['role'] == 'doctor'){
+        $drName = "Dr. " . $user['firstName'] . " " . $user['lastName'];
+    }
+
+    // Logout logic
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
 ?>
 
 <body>
-    <h1>Welcome, <?php echo $user['first_name']; ?>!</h1>
+    <h1>Welcome, <?php echo $drName; ?>!</h1>
     <p>Email: <?php echo $user['email']; ?></p>
     <p>Age: <?php echo $user['age']; ?></p>
-    <p>role: <?php echo $user['role']; ?></p>
+    <p>Role: <?php echo $user['role']; ?></p>
     <!-- Display more user details as needed -->
-    <a href="login.php">Logout</a>
+    <a href="?logout=true">Logout</a>
 </body>

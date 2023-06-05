@@ -98,19 +98,35 @@
             $error_message = 'Unable to connect to the database. Please try again later.';
             die("Connection failed: " . $conn->connect_error);
         } else {
-            $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
-            $stmt->bind_param("ss", $email, $password);
-            $stmt->execute();
-            $result = $stmt->get_result();
+            $stmt_patient = $conn->prepare("SELECT * FROM patient WHERE email = ? AND password = ?");
+            $stmt_patient->bind_param("ss", $email, $password);
+            $stmt_patient->execute();
+            $result_patient = $stmt_patient->get_result();
 
-            if ($result->num_rows > 0) {
-                // Login successful
-                $user = $result->fetch_assoc();
+            $stmt_doctor = $conn->prepare("SELECT * FROM doctor WHERE email = ? AND password = ?");
+            $stmt_doctor->bind_param("ss", $email, $password);
+            $stmt_doctor->execute();
+            $result_doctor = $stmt_doctor->get_result();
+           
+
+            if ($result_patient->num_rows > 0) {
+                // Patient login successful
+                $user = $result_patient->fetch_assoc();
 
                 // Store user details in session variables
                 $_SESSION['user'] = $user;
 
-                // Redirect to the dashboard page
+                // Redirect to the patient dashboard page
+                header("Location: patient_dashboard.php");
+                exit();
+            } elseif ($result_doctor->num_rows > 0) {
+                // Doctor login successful
+                $user = $result_doctor->fetch_assoc();
+
+                // Store user details in session variables
+                $_SESSION['user'] = $user;
+
+                // Redirect to the doctor dashboard page
                 header("Location: doctor_dashboard.php");
                 exit();
             } else {
@@ -118,11 +134,13 @@
                 $error_message = 'Invalid email or password. Please try again.';
             }
 
-            $stmt->close();
+            $stmt_patient->close();
+            $stmt_doctor->close();
             $conn->close();
         }
     }
 ?>
+
 
 <body>
     <form class="form" method="POST" action="login.php">
