@@ -3,7 +3,8 @@
 <head>
     <title>Sign up</title>
     <style>
-        body {
+         body {
+            padding-top: 60px; /* Adjust the value to make space for the navbar */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -131,7 +132,10 @@
             justify-content: space-between;
             background-color: #2c3e50;
             padding: 10px;
-            position: relative;
+            position: fixed; /* Change to fixed */
+            top: 0; /* Position at the top */
+            width: 100%; /* Make the navbar full-width */
+            z-index: 1; /* Ensure the navbar is on top */
         }
 
         .navbar-logo {

@@ -4,6 +4,7 @@
     <title>Login</title>
     <style>
         body {
+            padding-top: 60px; /* Adjust the value to make space for the navbar */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -21,7 +22,6 @@
             margin: auto;
             border: 0.5px solid black;
         }
-
 
         .form-title {
             font-size: 1.25rem;
@@ -88,7 +88,10 @@
             justify-content: space-between;
             background-color: #2c3e50;
             padding: 10px;
-            position: relative;
+            position: fixed; /* Change to fixed */
+            top: 0; /* Position at the top */
+            width: 100%; /* Make the navbar full-width */
+            z-index: 1; /* Ensure the navbar is on top */
         }
 
         .navbar-logo {
@@ -117,14 +120,6 @@
         }
 
     </style>
-    <div class="navbar"> 
-        <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
-            <ul class="navbar-menu"> 
-            <li><a href="Home-Page.php">Home</a></li> 
-            <li><a href="show_doctor.php">Doctors</a></li> 
-            <li><a href="#">About</a></li> 
-        </ul> 
-    </div>
 </head>
 <?php
     session_start(); // Start the session
@@ -182,10 +177,16 @@
         }
     }
 ?>
-
-
 <body>
-    
+    <div class="navbar"> 
+        <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
+        <ul class="navbar-menu"> 
+            <li><a href="Home-Page.php">Home</a></li> 
+            <li><a href="show_doctor.php">Doctors</a></li> 
+            <li><a href="#">About</a></li> 
+        </ul> 
+    </div>
+
     <form class="form" method="POST" action="login.php">
         <p class="form-title">Sign in to your account</p>
         <div class="input-container">
@@ -206,7 +207,4 @@
         </p>
     </form>
 </body>
-
-
-
 </html>
