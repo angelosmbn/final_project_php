@@ -7,17 +7,16 @@
 
 <body>
   <!-- Yung banner sa taas  -->
-    <div class="banner">
-        <div class="navbar">
-            <a href="dashboard.php" style="box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.1);">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="show_doctors.php" style="box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.1);">Doctors</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#" style="box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.1);">My Appointments</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#" style="box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.1);">About</a>
-        </div>
-        <div>
-            <img class="user-image" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg" alt="Profile Image">
-        </div>
-    </div>
+  <div class="navbar"> 
+     <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
+        <ul class="navbar-menu"> 
+         <li><a href="#">Home</a></li> 
+         <li><a href="#">Doctors</a></li> 
+         <li><a href="#">My Appointments</a></li> 
+         <li><a href="#">About</a></li> 
+         <li class="login"><a href="Signup-page.php">Sign-up</a>   ||   <a href="Login-page.php">   Login</a></li>(optional if need ng login signup)
+       </ul> 
+  </div>
 
 
   <div class="container">
