@@ -124,12 +124,54 @@
         .error{
             color: red;
         }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2c3e50;
+            padding: 10px;
+            position: relative;
+        }
+
+        .navbar-logo {
+            width: 150px;
+            height: auto;
+            mix-blend-mode: multiply;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            position: relative;
+        }
+
+        .navbar-menu li {
+            margin-left: 20px;
+        }
+
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-menu a:hover {
+            color: #f39c12;
+        }
         
 
 
     </style>
 </head>
 <body>
+    <div class="navbar"> 
+        <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
+            <ul class="navbar-menu"> 
+            <li><a href="Home-Page.php">Home</a></li> 
+            <li><a href="show_doctor.php">Doctors</a></li> 
+            <li><a href="#">About</a></li> 
+        </ul> 
+    </div>
     <form id="signupForm" class="form hide" action="success.php" method="POST">
         <p class="form-title">Create an account</p>
         <div class="divider">

@@ -82,7 +82,49 @@
             color: red;
         }
 
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2c3e50;
+            padding: 10px;
+            position: relative;
+        }
+
+        .navbar-logo {
+            width: 150px;
+            height: auto;
+            mix-blend-mode: multiply;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            position: relative;
+        }
+
+        .navbar-menu li {
+            margin-left: 20px;
+        }
+
+        .navbar-menu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar-menu a:hover {
+            color: #f39c12;
+        }
+
     </style>
+    <div class="navbar"> 
+        <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
+            <ul class="navbar-menu"> 
+            <li><a href="Home-Page.php">Home</a></li> 
+            <li><a href="show_doctor.php">Doctors</a></li> 
+            <li><a href="#">About</a></li> 
+        </ul> 
+    </div>
 </head>
 <?php
     session_start(); // Start the session
@@ -117,7 +159,7 @@
                 $_SESSION['user'] = $user;
 
                 // Redirect to the patient dashboard page
-                header("Location: patient_dashboard.php");
+                header("Location: Home-Page.php");
                 exit();
             } elseif ($result_doctor->num_rows > 0) {
                 // Doctor login successful
@@ -127,7 +169,7 @@
                 $_SESSION['user'] = $user;
 
                 // Redirect to the doctor dashboard page
-                header("Location: doctor_dashboard.php");
+                header("Location: Home-Page.php");
                 exit();
             } else {
                 // Login failed
@@ -143,6 +185,7 @@
 
 
 <body>
+    
     <form class="form" method="POST" action="login.php">
         <p class="form-title">Sign in to your account</p>
         <div class="input-container">
