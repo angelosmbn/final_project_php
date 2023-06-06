@@ -4,7 +4,7 @@
     <title>Sign up</title>
     <style>
          body {
-            padding-top: 60px; /* Adjust the value to make space for the navbar */
+            padding-top: 250px; /* Adjust the value to make space for the navbar */
             display: flex;
             align-items: center;
             justify-content: center;
