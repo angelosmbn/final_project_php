@@ -83,7 +83,7 @@
     }
 
     .dropdown-content {
-      display: <?php echo ($isLoginPage || $isSignupPage) ? 'none' : 'none'; ?>;
+      display: none;
       position: absolute;
       background-color: #567a9e;
       min-width: 160px;
