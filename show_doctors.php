@@ -4,21 +4,10 @@
   <title>People Details</title>
   <link href="PatientVer2.css" rel="stylesheet" type="text/css">
 </head>
-
+  <?php 
+    require 'navbar.php';
+  ?>
 <body>
-  <!-- Yung banner sa taas  -->
-  <div class="navbar"> 
-     <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
-        <ul class="navbar-menu"> 
-         <li><a href="Home-Page.php">Home</a></li> 
-         <li><a href="#">Doctors</a></li> 
-         <li><a href="#">My Appointments</a></li> 
-         <li><a href="#">About</a></li>
-         <li class="login"><a href="signup.php">Sign-up</a>   ||   <a href="login.php">   Login</a></li>
-       </ul> 
-  </div>
-
-
   <div class="container">
     <div class="sidebar">
 

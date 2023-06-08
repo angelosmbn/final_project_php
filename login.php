@@ -1,11 +1,64 @@
+<?php
+    require 'navbar.php';
+    $error_message = "";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email = $_POST['email'];
+        $password = sha1(sha1($_POST['password']));
+
+        $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
+        if ($conn->connect_error) {
+            $error_message = 'Unable to connect to the database. Please try again later.';
+            die("Connection failed: " . $conn->connect_error);
+        } else {
+            $stmt_patient = $conn->prepare("SELECT * FROM patient WHERE email = ? AND password = ?");
+            $stmt_patient->bind_param("ss", $email, $password);
+            $stmt_patient->execute();
+            $result_patient = $stmt_patient->get_result();
+
+            $stmt_doctor = $conn->prepare("SELECT * FROM doctor WHERE email = ? AND password = ?");
+            $stmt_doctor->bind_param("ss", $email, $password);
+            $stmt_doctor->execute();
+            $result_doctor = $stmt_doctor->get_result();
+
+            if ($result_patient->num_rows > 0) {
+                // Patient login successful
+                $user = $result_patient->fetch_assoc();
+
+                // Store user details in session variables
+                $_SESSION['user'] = $user;
+
+                // Redirect to the patient dashboard page
+                header("Location: Home-Page.php");
+                exit();
+            } elseif ($result_doctor->num_rows > 0) {
+                // Doctor login successful
+                $user = $result_doctor->fetch_assoc();
+
+                // Store user details in session variables
+                $_SESSION['user'] = $user;
+
+                // Redirect to the doctor dashboard page
+                header("Location: Home-Page.php");
+                exit();
+            } else {
+                // Login failed
+                $error_message = 'Invalid email or password. Please try again.';
+            }
+
+            $stmt_patient->close();
+            $stmt_doctor->close();
+            $conn->close();
+        }
+    }
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <title>Login</title>
     <style>
-        body {
-            padding-top: 60px; /* Adjust the value to make space for the navbar */
-            display: flex;
+        body { /* Adjust the value to make space for the navbar */ 
             align-items: center;
             justify-content: center;
             height: 100vh;
@@ -21,6 +74,7 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             margin: auto;
             border: 0.5px solid black;
+            margin-top: 150px;
         }
 
         .form-title {
@@ -82,111 +136,9 @@
             color: red;
         }
 
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #2c3e50;
-            padding: 10px;
-            position: fixed; /* Change to fixed */
-            top: 0; /* Position at the top */
-            width: 100%; /* Make the navbar full-width */
-            z-index: 1; /* Ensure the navbar is on top */
-        }
-
-        .navbar-logo {
-            width: 150px;
-            height: auto;
-            mix-blend-mode: multiply;
-        }
-
-        .navbar-menu {
-            display: flex;
-            list-style: none;
-            position: relative;
-        }
-
-        .navbar-menu li {
-            margin-left: 20px;
-        }
-
-        .navbar-menu a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .navbar-menu a:hover {
-            color: #f39c12;
-        }
-
     </style>
 </head>
-<?php
-    session_start(); // Start the session
-
-    $error_message = "";
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = $_POST['email'];
-        $password = sha1(sha1($_POST['password']));
-
-        $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
-        if ($conn->connect_error) {
-            $error_message = 'Unable to connect to the database. Please try again later.';
-            die("Connection failed: " . $conn->connect_error);
-        } else {
-            $stmt_patient = $conn->prepare("SELECT * FROM patient WHERE email = ? AND password = ?");
-            $stmt_patient->bind_param("ss", $email, $password);
-            $stmt_patient->execute();
-            $result_patient = $stmt_patient->get_result();
-
-            $stmt_doctor = $conn->prepare("SELECT * FROM doctor WHERE email = ? AND password = ?");
-            $stmt_doctor->bind_param("ss", $email, $password);
-            $stmt_doctor->execute();
-            $result_doctor = $stmt_doctor->get_result();
-           
-
-            if ($result_patient->num_rows > 0) {
-                // Patient login successful
-                $user = $result_patient->fetch_assoc();
-
-                // Store user details in session variables
-                $_SESSION['user'] = $user;
-
-                // Redirect to the patient dashboard page
-                header("Location: Home-Page.php");
-                exit();
-            } elseif ($result_doctor->num_rows > 0) {
-                // Doctor login successful
-                $user = $result_doctor->fetch_assoc();
-
-                // Store user details in session variables
-                $_SESSION['user'] = $user;
-
-                // Redirect to the doctor dashboard page
-                header("Location: Home-Page.php");
-                exit();
-            } else {
-                // Login failed
-                $error_message = 'Invalid email or password. Please try again.';
-            }
-
-            $stmt_patient->close();
-            $stmt_doctor->close();
-            $conn->close();
-        }
-    }
-?>
 <body>
-    <div class="navbar"> 
-        <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
-        <ul class="navbar-menu"> 
-            <li><a href="Home-Page.php">Home</a></li> 
-            <li><a href="show_doctor.php">Doctors</a></li> 
-            <li><a href="#">About</a></li> 
-        </ul> 
-    </div>
-
     <form class="form" method="POST" action="login.php">
         <p class="form-title">Sign in to your account</p>
         <div class="input-container">
@@ -200,7 +152,6 @@
             <?php } ?>
         </div>
         <button type="submit" class="submit">Sign in</button>
-
         <p class="signup-link">
             No account?
             <a href="signup.php">Sign up</a>

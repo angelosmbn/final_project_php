@@ -4,13 +4,13 @@
     <title>Success</title>
     <style>
         body {
-            display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
             background-color: #f5f5f5;
         }
         .success-message {
+            margin-top: 150px;
             border: 1px solid black;
             padding: 10px;
             border-radius: 5px;
@@ -43,6 +43,7 @@
 </head>
 <body>
     <?php
+        require 'navbar.php';
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $firstName = $_POST['firstName'];
             $lastName = $_POST['lastName'];
@@ -104,7 +105,7 @@
                     }
                     elseif($role == "patient"){
                         $stmt = $conn->prepare("INSERT INTO patient(firstName, lastName, age, gender, phoneNumber, email, street, city, state, postal, country, role, password)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                         $stmt->bind_param("ssisissssisss", $firstName, $lastName, $age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $password);
                     }
                     $stmt->execute();

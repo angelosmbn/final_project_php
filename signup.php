@@ -4,8 +4,6 @@
     <title>Sign up</title>
     <style>
          body {
-            padding-top: 250px; /* Adjust the value to make space for the navbar */
-            display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
@@ -21,6 +19,7 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             margin: auto;
             border: 0.5px solid black;
+            margin-top: 150px;
         }
 
 
@@ -126,56 +125,12 @@
             color: red;
         }
 
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #2c3e50;
-            padding: 10px;
-            position: fixed; /* Change to fixed */
-            top: 0; /* Position at the top */
-            width: 100%; /* Make the navbar full-width */
-            z-index: 1; /* Ensure the navbar is on top */
-        }
-
-        .navbar-logo {
-            width: 150px;
-            height: auto;
-            mix-blend-mode: multiply;
-        }
-
-        .navbar-menu {
-            display: flex;
-            list-style: none;
-            position: relative;
-        }
-
-        .navbar-menu li {
-            margin-left: 20px;
-        }
-
-        .navbar-menu a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .navbar-menu a:hover {
-            color: #f39c12;
-        }
-        
-
-
     </style>
 </head>
+    <?php 
+        require 'navbar.php';
+    ?>
 <body>
-    <div class="navbar"> 
-        <img src="https://lh3.googleusercontent.com/drive-viewer/AFGJ81oPLY3tWwP5Ehvtv0-5ucfnf0ht4a204opiPOE9q4EjYrsrfHfAHVwX3L9Uk-sSdnEYQa7LZAZ8Rqnz7uYEbCcOPN29cg=s2560" class="navbar-logo" /> </a>
-            <ul class="navbar-menu"> 
-            <li><a href="Home-Page.php">Home</a></li> 
-            <li><a href="show_doctor.php">Doctors</a></li> 
-            <li><a href="#">About</a></li> 
-        </ul> 
-    </div>
     <form id="signupForm" class="form hide" action="success.php" method="POST">
         <p class="form-title">Create an account</p>
         <div class="divider">
