@@ -136,7 +136,7 @@
                             echo '<a href="login.php">Login</a>';
                         } else {
                             echo '<h3>' . $Name . '</h3>';
-                            echo '<a href="#">Account Settings</a>';
+                            echo '<a href="settings.php">Account Settings</a>';
                             if ($user['role'] == 'doctor') {
                                 echo '<a href="#">My Clinic</a>';
                             }
