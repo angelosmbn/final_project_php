@@ -103,6 +103,10 @@
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                         $stmt->bind_param("ssssisissssisss", $firstName, $lastName, $specializationsString, $licensesString ,$age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $password);
                     }
+                    /*
+                    if($role == 'doctor'){
+                        $stmt = "INSERT INTO doctor  VALUES ($firstName, $lastName, $specializationsString, $licensesString ,$age, $gender, $telephone, $email, $street, $city, $state, $zip, $country, $role, $password)";
+                    }*/
                     elseif($role == "patient"){
                         $stmt = $conn->prepare("INSERT INTO patient(firstName, lastName, age, gender, phoneNumber, email, street, city, state, postal, country, role, password)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
