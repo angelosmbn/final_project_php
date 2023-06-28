@@ -174,12 +174,19 @@ require 'navbar.php';
 
   <script>
     function validateForm() {
-      var curPassword = document.getElementById("curPassword").value;
-      var newPassword = document.getElementById("newPassword").value;
-      var cnPassword = document.getElementById("cnPassword").value;
-      var errorMessage = document.querySelector(".error-message");
+      <?php
+        if (isset($_POST['curPassword'], $_POST['newPassword'], $_POST['cnPassword'])) {
+            $curPassword = sha1(sha1($_POST['curPassword']));
+            $newPassword = sha1(sha1($_POST['newPassword']));
+            $cnPassword = sha1(sha1($_POST['cnPassword']));
+        }
+      ?>
+      var curPassword = <?php echo $curPassword; ?>;
+      var newPassword = <?php echo $newPassword; ?>;
+      var cnPassword = <?php echo $cnPassword; ?>;
       var oldPassword = "<?php echo $_SESSION['oldPassword']; ?>";
-
+      var errorMessage = document.querySelector(".error-message");
+      
       // Check if any password input has a value
       if (curPassword || newPassword || cnPassword) {
         // If any one of them has a value, require all password inputs
@@ -196,19 +203,41 @@ require 'navbar.php';
         return false; // Prevent form submission
       }
 
-      if (curPassword && newPassword !== curPassword && newPassword === cnPassword) {
+      if (curPassword === oldPassword && newPassword !== curPassword && newPassword === cnPassword) {
         // Create a pop-up asking the user to confirm changes
         var confirmChanges = confirm("Are you sure you want to save the changes?");
 
         if (!confirmChanges) {
           return false; // User clicked cancel, prevent form submission
         }
-        if(confirmChanges){
-          <?php 
-            // Update the user's password in the database 
-  
+        else{
+          <?php
+          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Update the user's password in the database
+            $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
+            
+            // Check for a successful database connection
+            if ($conn->connect_error) {
+              die("Connection failed: " . $conn->connect_error);
+            }
+            
+            // Retrieve the patient's ID or any identifier needed to update the correct row
+            $patientId = $user['id']; // Set the patient's ID here or fetch it from a previous query
+            
+            // Update the password column
+            $sql = "UPDATE patient SET password = '$newPassword' WHERE id = '$patientId'";
+            
+            if ($conn->query($sql) === TRUE) {
+              echo "Password updated successfully.";
+            } else {
+              echo "Error updating password: " . $conn->error;
+            }
+            
+            $conn->close();
+          }
           ?>
         }
+
       }
 
       // Additional password validation logic goes here
