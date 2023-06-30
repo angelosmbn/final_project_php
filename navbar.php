@@ -1,6 +1,5 @@
 <?php
     session_start(); // Start the session
-
     // Retrieve the user details from the session
     $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 
@@ -23,6 +22,8 @@
     // Variable to indicate if navbar.php is included in login.php or signup.php
     $isLoginPage = basename($_SERVER['PHP_SELF']) === 'login.php';
     $isSignupPage = basename($_SERVER['PHP_SELF']) === 'signup.php';
+
+    
 ?>
 
 <!DOCTYPE html>
