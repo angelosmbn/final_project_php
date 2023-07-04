@@ -1,11 +1,16 @@
 <?php
     require 'navbar.php';
+    if(isset($user)){
+        // Redirect to the patient dashboard page
+        header("Location: Home-Page.php");
+        exit();
+    }
     $error_message = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
-        $password = sha1(sha1($_POST['password']));
-
+        $password = sha1($_POST['password']);
+        
         $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
         if ($conn->connect_error) {
             $error_message = 'Unable to connect to the database. Please try again later.';
@@ -30,6 +35,7 @@
 
                 // Redirect to the patient dashboard page
                 header("Location: Home-Page.php");
+                //echo "<script src='Home-Page.php'></script>"
                 exit();
             } elseif ($result_doctor->num_rows > 0) {
                 // Doctor login successful
@@ -52,7 +58,6 @@
         }
     }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -138,6 +143,7 @@
 
     </style>
 </head>
+
 <body>
     <form class="form" method="POST" action="login.php">
         <p class="form-title">Sign in to your account</p>

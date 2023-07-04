@@ -1,3 +1,83 @@
+<?php 
+        require 'navbar.php';
+        if(isset($user)){
+            // Redirect to the patient dashboard page
+            header("Location: Home-Page.php");
+            exit();
+        }
+        $_SESSION['signed'] = False;
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup']) && !isset($_SESSION['inserted'])){
+            unset($_POST['signup']);
+            $_SESSION['name'] = $_POST['name'];
+            $_SESSION['age'] = $_POST['age'];
+            $_SESSION['gender'] = $_POST['gender'];
+            $_SESSION['phone_number'] = $_POST['telephone'];
+            $_SESSION['email'] = $_POST['email'];
+
+            $_SESSION['street'] = $_POST['street'];
+            $_SESSION['city'] = $_POST['city'];
+            $_SESSION['state'] = $_POST['state'];
+            $_SESSION['postal'] = $_POST['postal'];
+            $_SESSION['country'] = $_POST['country'];
+            $_SESSION['address'] = $_POST['street'] . ', ' . $_POST['city'] . ', ' . $_POST['state'] . ', ' . $_POST['postal'] . ', ' . $_POST['country'];
+
+            $password = sha1($_POST['password']);
+            $confirmPassword = $_POST['confirmPassword'];
+
+            $_SESSION['role'] = isset($_POST['role']) ? $_POST['role'] : '';
+            $specializations = isset($_POST['specialization']) ? $_POST['specialization'] : [];
+            $licenses = isset($_POST['license']) ? $_POST['license'] : [];
+
+            $specializationsString = implode(', ', $specializations);
+            $licensesString = implode(', ', $licenses);
+
+            $conn = new mysqli('localhost', 'root', '', 'check_up');
+            
+            if ($conn->connect_error) {
+                $con_error_msg = "<div class='error-message'>Connection failed: " . $conn->connect_error . "</div>";
+                die("Connection failed: " . $conn->connect_error);
+            } else {
+                // Check if the email is already taken
+                $emailQuery = "SELECT email FROM patient WHERE email = ?";
+                if (isset($_POST['email']) && $_POST['role'] == 'doctor') {
+                    $emailQuery = "SELECT email FROM doctors WHERE email = ?";
+                }
+                $emailStmt = $conn->prepare($emailQuery);
+                $emailStmt->bind_param("s", $email);
+                $emailStmt->execute();
+                $emailResult = $emailStmt->get_result();
+            
+                if ($emailResult->num_rows > 0) {
+                    // Email is already taken, display error message and redirect back to the signup form
+                    $email_error_msg = '<div class="error-message">Email is already taken. Please choose a different email.<br></div>';
+                    $emailStmt->close();
+                    $conn->close();
+                } else {
+                    // Email is not taken, proceed with account creation
+                    if($_SESSION['role'] == 'doctor'){
+                        $stmt = $conn->prepare("INSERT INTO doctors(name, specialization, license_number, age, gender, phone_number, email, address, role, password)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("sssissssss", $_SESSION['name'], $specializationsString, $licensesString ,$_SESSION['age'], $_SESSION['gender'], $_SESSION['phone_number'], $_SESSION['email'], $_SESSION['address'], $_SESSION['role'], $password);
+                    }
+                    elseif($_SESSION['role'] == "patient"){
+                        $stmt = $conn->prepare("INSERT INTO patient(name, age, gender, phone_number, email, address, role, password)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("sissssss", $_SESSION['name'], $_SESSION['age'], $_SESSION['gender'], $_SESSION['phone_number'], $_SESSION['email'], $_SESSION['address'], $_SESSION['role'], $password);
+                    }
+                    $stmt->execute();
+
+                    
+            
+                    $_SESSION['success_msg'] = 'Account successfully created!<br>';
+                    $_SESSION['signed'] = TRUE;
+                    $_SESSION['inserted'] = true;
+
+                    $stmt->close();
+                    $conn->close();
+                }
+            }            
+        }
+    ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -153,81 +233,7 @@
 
     </style>
 </head>
-    <?php 
-        require 'navbar.php';
-        $_SESSION['signed'] = False;
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup']) && !isset($_SESSION['inserted'])){
-            unset($_POST['signup']);
-            $_SESSION['name'] = $_POST['name'];
-            $_SESSION['age'] = $_POST['age'];
-            $_SESSION['gender'] = $_POST['gender'];
-            $_SESSION['phone_number'] = $_POST['telephone'];
-            $_SESSION['email'] = $_POST['email'];
-
-            $_SESSION['street'] = $_POST['street'];
-            $_SESSION['city'] = $_POST['city'];
-            $_SESSION['state'] = $_POST['state'];
-            $_SESSION['postal'] = $_POST['postal'];
-            $_SESSION['country'] = $_POST['country'];
-            $_SESSION['address'] = $_POST['street'] . ', ' . $_POST['city'] . ', ' . $_POST['state'] . ', ' . $_POST['postal'] . ', ' . $_POST['country'];
-
-            $password = sha1($_POST['password']);
-            $confirmPassword = $_POST['confirmPassword'];
-
-            $_SESSION['role'] = isset($_POST['role']) ? $_POST['role'] : '';
-            $specializations = isset($_POST['specialization']) ? $_POST['specialization'] : [];
-            $licenses = isset($_POST['license']) ? $_POST['license'] : [];
-
-            $specializationsString = implode(', ', $specializations);
-            $licensesString = implode(', ', $licenses);
-
-            $conn = new mysqli('localhost', 'root', '', 'check_up');
-            
-            if ($conn->connect_error) {
-                $con_error_msg = "<div class='error-message'>Connection failed: " . $conn->connect_error . "</div>";
-                die("Connection failed: " . $conn->connect_error);
-            } else {
-                // Check if the email is already taken
-                $emailQuery = "SELECT email FROM patient WHERE email = ?";
-                if (isset($_POST['email']) && $_POST['role'] == 'doctor') {
-                    $emailQuery = "SELECT email FROM doctors WHERE email = ?";
-                }
-                $emailStmt = $conn->prepare($emailQuery);
-                $emailStmt->bind_param("s", $email);
-                $emailStmt->execute();
-                $emailResult = $emailStmt->get_result();
-            
-                if ($emailResult->num_rows > 0) {
-                    // Email is already taken, display error message and redirect back to the signup form
-                    $email_error_msg = '<div class="error-message">Email is already taken. Please choose a different email.<br></div>';
-                    $emailStmt->close();
-                    $conn->close();
-                } else {
-                    // Email is not taken, proceed with account creation
-                    if($_SESSION['role'] == 'doctor'){
-                        $stmt = $conn->prepare("INSERT INTO doctors(name, specialization, license_number, age, gender, phone_number, email, address, role, password)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                        $stmt->bind_param("sssissssss", $_SESSION['name'], $specializationsString, $licensesString ,$_SESSION['age'], $_SESSION['gender'], $_SESSION['phone_number'], $_SESSION['email'], $_SESSION['address'], $_SESSION['role'], $password);
-                    }
-                    elseif($_SESSION['role'] == "patient"){
-                        $stmt = $conn->prepare("INSERT INTO patient(name, age, gender, phone_number, email, address, role, password)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                        $stmt->bind_param("sissssss", $_SESSION['name'], $_SESSION['age'], $_SESSION['gender'], $_SESSION['phone_number'], $_SESSION['email'], $_SESSION['address'], $_SESSION['role'], $password);
-                    }
-                    $stmt->execute();
-
-                    
-            
-                    $_SESSION['success_msg'] = 'Account successfully created!<br>';
-                    $_SESSION['signed'] = TRUE;
-                    $_SESSION['inserted'] = true;
-
-                    $stmt->close();
-                    $conn->close();
-                }
-            }            
-        }
-    ?>
+    
 <body>
     <form id="signupForm" class="form hide" method="POST">
         <p class="form-title">Create an account</p>

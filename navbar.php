@@ -1,31 +1,27 @@
 <?php
-    session_start(); // Start the session
-    // Retrieve the user details from the session
-    $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+session_start(); // Start the session
+// Retrieve the user details from the session
+$user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 
-    $Name = ""; // Initialize the variable
+$Name = ""; // Initialize the variable
 
-    if ($user && $user['role'] == 'doctor') {
-        $Name = "Dr. " . $user['firstName'] . " " . $user['lastName'];
-    }
-    if ($user && $user['role'] == 'patient') {
-        $Name = $user['firstName'] . " " . $user['lastName'];
-    }
+if ($user && $user['role'] == 'doctor') {
+    $Name = "Dr. " . $user['firstName'] . " " . $user['lastName'];
+}
+if ($user && $user['role'] == 'patient') {
+    $Name = $user['firstName'] . " " . $user['lastName'];
+}
 
-    // Logout logic
-    if (isset($_GET['logout'])) {
-        session_destroy();
-        header("Location: login.php");
-        exit();
-    }
+// Logout logic
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
 
-    // Variable to indicate if navbar.php is included in login.php or signup.php
-    $isLoginPage = basename($_SERVER['PHP_SELF']) === 'login.php';
-    $isSignupPage = basename($_SERVER['PHP_SELF']) === 'signup.php';
-
-    
-?>
-
+// Variable to indicate if navbar.php is included in login.php or signup.php
+$isLoginPage = basename($_SERVER['PHP_SELF']) === 'login.php';
+$isSignupPage = basename($_SERVER['PHP_SELF']) === 'signup.php';?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -127,7 +123,7 @@
             }
             ?>
             <li><a href="about.php">About</a></li>
-            <?php if (!$isLoginPage && !$isSignupPage) { ?>
+            <?php if (!$isLoginPage && !$isSignupPage) {?>
                 <div class="dropdown">
                     <img class="user-image" src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg" alt="Profile Image">
                     <div class="dropdown-content">
@@ -146,7 +142,7 @@
                         ?>
                     </div>
                 </div>
-            <?php } ?>
+            <?php }?>
         </ul>
     </div>
 </body>

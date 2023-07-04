@@ -143,7 +143,13 @@ require 'navbar.php';
   <div class="container_main">
     <div class="navigation-bar">
       <ul>
+        <li><a href="settings.php">Account Settings</a></li>
         <li><a href="personal_information.php">Personal Information</a></li>
+        <?php 
+          if($user['role'] == 'doctor'){
+            echo '<li><a href="DoctorSchedule.php">Clinic Settings</a></li>';
+          }
+        ?>
       </ul>
     </div>
 
