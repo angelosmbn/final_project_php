@@ -78,8 +78,12 @@
               <h2 class="text-title"><?php echo "Dr. " . $row['name']; ?></h2>
               <p class="text-body">Specialization: <?php echo $row['specialization']; ?></p>
               <div class="info-card">
-                  <h3>Additional Information</h3>
-                  <p>.</p>
+                  <p>Doctor ID: <?php echo $row['doctor_id']; ?>
+                  <br>Age: <?php echo $row['age']; ?>
+                  <br>Gender: <?php echo $row['gender']; ?>
+                  <br>Phone: <?php echo $row['phone_number']; ?>
+                  <br>Email: <?php echo $row['email']; ?>
+                  <br>Address: <?php echo $row['address']; ?></p>
               </div>
               <a href="DoctorSetAppointment.php?doctor_id=<?php echo $row['doctor_id']; ?>&doctor_name=<?php echo urlencode($row['name']); ?>" class="card-button">Book Now</a>
 

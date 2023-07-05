@@ -125,7 +125,8 @@ $conn = new mysqli('localhost', 'root', '', 'check_up');
             }
             if ($user && $user['role'] == 'doctor'){
                 echo '<li><a href="doctorAppointment.php">My Appointments</a></li>';
-            }else{
+            }
+            if ($user && $user['role'] == 'patient'){
               echo '<li><a href="patientAppointment.php">My Appointments</a></li>';
             }
             ?>
