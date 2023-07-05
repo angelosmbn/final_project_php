@@ -10,22 +10,24 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
         $password = sha1($_POST['password']);
-        
-        $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
+
+        $conn = new mysqli('localhost', 'root', '', 'check_up');
         if ($conn->connect_error) {
             $error_message = 'Unable to connect to the database. Please try again later.';
             die("Connection failed: " . $conn->connect_error);
         } else {
             $stmt_patient = $conn->prepare("SELECT * FROM patient WHERE email = ? AND password = ?");
-            $stmt_patient->bind_param("ss", $email, $password);
-            $stmt_patient->execute();
-            $result_patient = $stmt_patient->get_result();
-
-            $stmt_doctor = $conn->prepare("SELECT * FROM doctor WHERE email = ? AND password = ?");
-            $stmt_doctor->bind_param("ss", $email, $password);
-            $stmt_doctor->execute();
-            $result_doctor = $stmt_doctor->get_result();
-
+            if ($stmt_patient){
+                $stmt_patient->bind_param("ss", $email, $password);
+                $stmt_patient->execute();
+                $result_patient = $stmt_patient->get_result();
+            }
+            $stmt_doctor = $conn->prepare("SELECT * FROM doctors WHERE email = ? AND password = ?");
+            if ($stmt_doctor){
+                $stmt_doctor->bind_param("ss", $email, $password);
+                $stmt_doctor->execute();
+                $result_doctor = $stmt_doctor->get_result();
+            }
             if ($result_patient->num_rows > 0) {
                 // Patient login successful
                 $user = $result_patient->fetch_assoc();
@@ -35,7 +37,6 @@
 
                 // Redirect to the patient dashboard page
                 header("Location: Home-Page.php");
-                //echo "<script src='Home-Page.php'></script>"
                 exit();
             } elseif ($result_doctor->num_rows > 0) {
                 // Doctor login successful
@@ -58,6 +59,7 @@
         }
     }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,7 +145,6 @@
 
     </style>
 </head>
-
 <body>
     <form class="form" method="POST" action="login.php">
         <p class="form-title">Sign in to your account</p>

@@ -38,21 +38,20 @@
                 die("Connection failed: " . $conn->connect_error);
             } else {
                 // Check if the email is already taken
-                $emailQuery = "SELECT email FROM patient WHERE email = ?";
-                if (isset($_POST['email']) && $_POST['role'] == 'doctor') {
-                    $emailQuery = "SELECT email FROM doctors WHERE email = ?";
-                }
+                $email = $_POST['email'];
+                $emailQuery = "SELECT email FROM patient WHERE email = ? UNION SELECT email FROM doctors WHERE email = ?";
                 $emailStmt = $conn->prepare($emailQuery);
-                $emailStmt->bind_param("s", $email);
+                $emailStmt->bind_param("ss", $email, $email);
                 $emailStmt->execute();
                 $emailResult = $emailStmt->get_result();
-            
+
                 if ($emailResult->num_rows > 0) {
                     // Email is already taken, display error message and redirect back to the signup form
                     $email_error_msg = '<div class="error-message">Email is already taken. Please choose a different email.<br></div>';
                     $emailStmt->close();
                     $conn->close();
-                } else {
+                }
+                else {
                     // Email is not taken, proceed with account creation
                     if($_SESSION['role'] == 'doctor'){
                         $stmt = $conn->prepare("INSERT INTO doctors(name, specialization, license_number, age, gender, phone_number, email, address, role, password)

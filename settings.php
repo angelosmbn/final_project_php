@@ -144,10 +144,10 @@ require 'navbar.php';
     <div class="navigation-bar">
       <ul>
         <li><a href="settings.php">Account Settings</a></li>
-        <li><a href="personal_information.php">Personal Information</a></li>
+        <!--<li><a href="personal_information.php">Personal Information</a></li>-->
         <?php 
           if($user['role'] == 'doctor'){
-            echo '<li><a href="DoctorSchedule.php">Clinic Settings</a></li>';
+            echo '<li><a href="DoctorSchedule.php">Add Clinic</a></li>';
           }
         ?>
       </ul>
@@ -220,7 +220,7 @@ require 'navbar.php';
           <?php
           if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Update the user's password in the database
-            $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
+            $conn = new mysqli('localhost', 'root', '', 'check_up');
             
             // Check for a successful database connection
             if ($conn->connect_error) {

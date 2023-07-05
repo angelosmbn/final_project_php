@@ -6,10 +6,10 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 $Name = ""; // Initialize the variable
 
 if ($user && $user['role'] == 'doctor') {
-    $Name = "Dr. " . $user['firstName'] . " " . $user['lastName'];
+    $Name = "Dr. " . $user['name'];
 }
 if ($user && $user['role'] == 'patient') {
-    $Name = $user['firstName'] . " " . $user['lastName'];
+    $Name = $user['name'];
 }
 
 // Logout logic
@@ -21,7 +21,15 @@ if (isset($_GET['logout'])) {
 
 // Variable to indicate if navbar.php is included in login.php or signup.php
 $isLoginPage = basename($_SERVER['PHP_SELF']) === 'login.php';
-$isSignupPage = basename($_SERVER['PHP_SELF']) === 'signup.php';?>
+$isSignupPage = basename($_SERVER['PHP_SELF']) === 'signup.php';
+
+
+$conn = new mysqli('localhost', 'root', '', 'check_up');
+
+
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,11 +123,10 @@ $isSignupPage = basename($_SERVER['PHP_SELF']) === 'signup.php';?>
             if ($user && $user['role'] == 'patient') {
                 echo '<li><a href="show_doctors.php">Doctors</a></li>';
             }
-            else if ($user && $user['role'] == 'doctor') {
-                echo '<li><a href="show_patients.php">My Patients</a></li>';
-            }
-            if ($user){
-                echo '<li><a href="#">My Appointments</a></li>';
+            if ($user && $user['role'] == 'doctor'){
+                echo '<li><a href="doctorAppointment.php">My Appointments</a></li>';
+            }else{
+              echo '<li><a href="patientAppointment.php">My Appointments</a></li>';
             }
             ?>
             <li><a href="about.php">About</a></li>
@@ -133,6 +140,7 @@ $isSignupPage = basename($_SERVER['PHP_SELF']) === 'signup.php';?>
                             echo '<a href="login.php">Login</a>';
                         } else {
                             echo '<h3>' . $Name . '</h3>';
+                            echo '<a href="profile.php">Profile</a>';
                             echo '<a href="settings.php">Account Settings</a>';
                             if ($user['role'] == 'doctor') {
                                 echo '<a href="#">My Clinic</a>';

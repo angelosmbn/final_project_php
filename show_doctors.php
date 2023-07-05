@@ -38,7 +38,7 @@
     <div class="content">
       <?php
       // Establish the database connection
-      $conn = new mysqli('localhost', 'root', 'final123', 'check_up');
+      $conn = new mysqli('localhost', 'root', '', 'check_up');
 
       // Check for connection errors
       if ($conn->connect_error) {
@@ -46,13 +46,13 @@
       }
 
       // Fetch data from the doctor table
-      $sql = "SELECT firstName, lastName, specialization, picture FROM doctor";
+      $sql = "SELECT * FROM doctors";
       
       // Check if search input is provided
       if (isset($_POST['search']) && !empty($_POST['search'])) {
         $search = $_POST['search'];
         // Add search filter to the SQL query
-        $sql .= " WHERE firstName LIKE '%$search%' OR lastName LIKE '%$search%'";
+        $sql .= " WHERE name LIKE '%$search%'";
       }
 
       // Check if specialization is selected
@@ -74,17 +74,20 @@
         while ($row = $result->fetch_assoc()) {
           ?>
           <div class="card">
-            <img class="profile-image" src="<?php echo $row['picture']; ?>" alt="Profile Image">
-            <h2 class="text-title"><?php echo "Dr." . $row['firstName'] . ' ' . $row['lastName']; ?></h2>
-            <p class="text-body">Specialization: <?php echo $row['specialization']; ?></p>
-            <div class="info-card">
-              <h3>Additional Information</h3>
-              <p>.</p>
-            </div>
-            <a href="#" class="card-button">Book Now</a>
+              <img class="profile-image" src="<?php echo $row['profile_picture']; ?>" alt="Profile Image">
+              <h2 class="text-title"><?php echo "Dr. " . $row['name']; ?></h2>
+              <p class="text-body">Specialization: <?php echo $row['specialization']; ?></p>
+              <div class="info-card">
+                  <h3>Additional Information</h3>
+                  <p>.</p>
+              </div>
+              <a href="DoctorSetAppointment.php?doctor_id=<?php echo $row['doctor_id']; ?>&doctor_name=<?php echo urlencode($row['name']); ?>" class="card-button">Book Now</a>
+
           </div>
           <?php
-        }
+      }
+      
+      
       } else {
         echo "No doctors found.";
       }

@@ -12,6 +12,16 @@ body {
     height: 100vh;
 }
 
+.user-image {
+    padding-right: 10px;
+    padding-top: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    float: right;
+}
+
 .profile-image {
     width: 300px;
     height: 300px;
@@ -19,25 +29,23 @@ body {
     object-fit: cover;
     margin-right: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px; /* Updated margin */
+    margin-bottom: 300px;
 }
 
 .container-appointment {
     width: 360px;
-    height: 470px;
+    height: 550px;
     background: #fff;
     border-radius: 5px;
     position: relative;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px; /* Updated margin */
 }
 
 h2 {
     text-align: center;
     margin: 20px;
     color: #777;
-    margin-top: -20px;
 }
 
 .container-appointment form {
@@ -48,8 +56,7 @@ h2 {
     transition: 0.5s;
 }
 
-form select,
-form input {
+form select, form input {
     width: 100%;
     padding: 10px 5px;
     margin: 5px 0;
@@ -63,14 +70,6 @@ form input {
     color: #777;
 }
 
-.btn-box-1 {
-    width: 100px;
-    margin: 30px;
-    margin-left: 70px;
-    text-align: center;
-    position: relative;
-    margin-top: 0px;
-}
 
 form button {
     width: 110px;
@@ -84,6 +83,11 @@ form button {
     cursor: pointer;
     margin-top: 40px;
 }
-.error-message{
-    color: red;
-}
+
+#datepicker {
+    text-align: center;
+  }
+  
+  ::-webkit-input-placeholder {
+    text-align: center;
+  }

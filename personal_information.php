@@ -242,8 +242,8 @@
 
         <label for="role">Role:</label>
         <select id="role" name="role" required>
-            <option value="Patient" <?php if ($role === 'Patient') echo 'selected'; ?>>Patient</option>
-            <option value="Doctor" <?php if ($role === 'Doctor') echo 'selected'; ?>>Doctor</option>
+            <option value="Patient" <?php if ($role === 'patient') echo 'selected'; ?>>Patient</option>
+            <option value="Doctor" <?php if ($role === 'doctor') echo 'selected'; ?>>Doctor</option>
         </select>
 
         <input type="submit" value="Save">
